@@ -82,13 +82,10 @@ function rowcheck(row) {
     // // let rowcells = Array.from(document.querySelectorAll(selector));
     for (let rownr = 1; rownr < 5; rownr++) {
         let checkrow = document.querySelectorAll(`[row="${rownr}"]`);
-        let checkRows = Array.from(checkrow);
-        let checkSet = new Set(checkRows.map((cell, idx) => {
-            console.log(idx, cell);
-            return cell.innerHTML
-        }));
-        let testArray = checkRows;
-        checkDuplicates(testArray);
+        let checkRows = Array.from(checkrow).map((cell, idx) => cell.innerHTML);
+        let checkSet = new Set(checkRows);
+        console.log("check", checkRows, checkSet);
+        checkDuplicates(checkRows);
 
         if (checkSet.size === 4) {
             console.log('row ', { rownr }, ' is correct')
@@ -96,7 +93,7 @@ function rowcheck(row) {
         else {
             console.log('row ', { rownr }, ' is incorrect')
         }
-    } 
+    }
 };
 
 // checking each column for errors
@@ -108,6 +105,8 @@ function colCheck(col) {
             let value = cell.innerHTML;
             checkColset.add(value);
         })
+        let inputArray = checkcol;
+        checkDuplicates(inputArray);
         console.warn(checkColset);
         if (checkColset.size === 4) {
             console.log('col ', { colnr }, ' is correct')
@@ -139,25 +138,22 @@ function blockCheck(block) {
 
 
 // function for checking for duplicates in row/clo/block (not inplemented in row/col/block check)
-function checkDuplicates() {
-    console.log("duplicatecheck activated")
-    const arraylength = testArray.length;
+function checkDuplicates(inputArray) {
+    const arraylength = inputArray.length;
+    console.log("duplicatecheck activated", arraylength, inputArray)
     const verwerktArray = [];
     const duplicateArray = [];
     for (let i = 0; i < arraylength; i++) {
-      console.log(testArray[i]);
-      if (verwerktArray.includes(testArray[i]) === true) {
-        duplicateArray.push(testArray[i]);
-        console.log(duplicateArray);
-      } else {
-        verwerktArray.push(testArray[i]);
-        console.log(verwerktArray);
-      }
+        if (verwerktArray.includes(inputArray[i]) === true) {
+            duplicateArray.push(inputArray[i]);
+        } else {
+            verwerktArray.push(inputArray[i]);
+        }
+        console.log(i, duplicateArray, verwerktArray);
     }
     return duplicateArray
-  }
-  let testArray = [];
+}
+
 //   let testArray = [1, 1, 2, 3, 4, 3, 5];
 //   checkDuplicates();
 //   console.log(checkDuplicates()); 
-  
