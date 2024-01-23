@@ -100,14 +100,9 @@ function rowcheck(row) {
 function colCheck(col) {
     for (let colnr = 1; colnr < 5; colnr++) {
         let checkcol = document.querySelectorAll(`[col="${colnr}"]`);
-        let checkColset = new Set();
-        checkcol.forEach(cell => {
-            let value = cell.innerHTML;
-            checkColset.add(value);
-        })
-        let inputArray = checkcol;
-        checkDuplicates(inputArray);
-        console.warn(checkColset);
+        let checkcols = Array.from(checkcol).map((cell, idx) => cell.innerHTML);
+        let checkColset = new Set(checkcols);
+        checkDuplicates(checkcols);
         if (checkColset.size === 4) {
             console.log('col ', { colnr }, ' is correct')
         }
@@ -121,12 +116,9 @@ function colCheck(col) {
 function blockCheck(block) {
     for (let blocknr = 1; blocknr < 5; blocknr++) {
         let checkblock = document.querySelectorAll(`[block="${blocknr}"]`);
-        let checkblockset = new Set();
-        checkblock.forEach(cell => {
-            let value = cell.innerHTML;
-            checkblockset.add(value);
-        })
-        console.warn(checkblockset);
+        let checkblocks = Array.from(checkblock).map((cell, idx) => cell.innerHTML);
+        let checkblockset = new Set(checkblocks);
+        checkDuplicates(checkblocks);
         if (checkblockset.size === 4) {
             console.log('block ', { blocknr }, ' is correct')
         }
