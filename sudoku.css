@@ -1,13 +1,24 @@
+:root{
+    --cell-width : 13vh;
+    --cell-height : var(--cell-width);
+}
+
 #Cells {
     display: grid;
-    grid-template-columns: repeat(4, 50px);
-    grid-template-rows: repeat(4, 50px);
+    grid-template-columns: repeat(4, var(--cell-height));
+    grid-template-rows: repeat(4, var(--cell-width));
+}
+
+#gameboard{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .Cells {
     display: flex;
-    width: 50px;
-    height: 50px;
+    width: var(--cell-width);
+    height: var(--cell-height);
     border: 1px solid black;
     font-size: xx-large;
     align-items: center;
@@ -16,15 +27,14 @@
 
 #ChooseNumber {
     display: grid;
-    grid-template-columns: repeat(4, 50px);
-    margin-top: 100px;
-    margin-left: 100px;
+    grid-template-columns: repeat(4, var(--cell-height));
+    margin-top: 3%;
 }
 
 .chosenNumber {
     display: flex;
-    width: 50px;
-    height: 50px;
+    width: var(--cell-width);
+    height: var(--cell-height);
     border: 2px solid black;
     font-size: xx-large;
     align-items: center;
@@ -35,7 +45,7 @@
     display: flex;
     width: 150px;
     height: 2em;
-    margin: 50px;
+    margin: 3%;
     border: 5px solid black;
     font-size: x-large;
     align-items: center;
