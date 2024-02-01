@@ -1,12 +1,17 @@
 :root{
     --cell-width : 13vh;
     --cell-height : var(--cell-width);
+    --cell-border : 2px;
 }
 
 #Cells {
     display: grid;
     grid-template-columns: repeat(4, var(--cell-height));
     grid-template-rows: repeat(4, var(--cell-width));
+    background-color: black;
+    grid-row-gap: var(--cell-border);
+    grid-column-gap:var(--cell-border);
+    border: var(--cell-border) solid black;
 }
 
 #gameboard{
@@ -14,13 +19,15 @@
     align-items: center;
     flex-direction: column;
 }
-
+div[error]{
+    background-color: red;
+}
 .Cells {
+    background-color: white;
     display: flex;
     width: var(--cell-width);
     height: var(--cell-height);
-    border: 1px solid black;
-    font-size: xx-large;
+    font-size: 6rem;
     align-items: center;
     justify-content: center;
 }
@@ -29,25 +36,29 @@
     display: grid;
     grid-template-columns: repeat(4, var(--cell-height));
     margin-top: 3%;
+    background-color: black;
+    grid-row-gap: var(--cell-border);
+    grid-column-gap:var(--cell-border);
+    border: var(--cell-border) solid black;
 }
 
 .chosenNumber {
     display: flex;
     width: var(--cell-width);
     height: var(--cell-height);
-    border: 2px solid black;
-    font-size: xx-large;
+    background-color: white;
+    font-size: 5rem;
     align-items: center;
     justify-content: center;
 }
 
 .CheckAnswerButton{
     display: flex;
-    width: 150px;
-    height: 2em;
-    margin: 3%;
-    border: 5px solid black;
-    font-size: x-large;
+    width: 13vw;
+    height: 3em;
+    margin: 2%;
+    border: 3px solid black;
+    font-size: 1.5rem;
     align-items: center;
     justify-content: center;
     float:left;
