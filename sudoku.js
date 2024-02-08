@@ -6,6 +6,7 @@ function generateBoard(Cells) {
     //     setAttribute("row", row);
     //     setAttribute("column", col );
 
+    //todo gebruik custom elements in plaats van divs
     // generate sudokuboard & add row/col/block values to cells
     for (let row = 1; row < 5; row++) {
         for (let col = 1; col < 5; col++) {
@@ -53,7 +54,7 @@ document.addEventListener("click", (event) => {
     }
     console.log(currentnumber);
 });
-
+//todo kleur currentnumber zodat speler weet welke geselecteerd is
 // check for click to input number in grid
 document.addEventListener("click", (event) => {
     const target = event.target;
@@ -128,7 +129,7 @@ function blockCheck(block) {
     }
 }
 
-
+//todo backgroundcolor van errors moet rood worden
 // function for checking for duplicates in row/clo/block (not inplemented in row/col/block check)
 function checkDuplicates(inputArray) {
     const arraylength = inputArray.length;
