@@ -52,6 +52,9 @@ div[error]{
     justify-content: center;
 }
 
+.CurrentChosen{
+    background-color: red;
+}
 .CheckAnswerButton{
     display: flex;
     width: 13vw;

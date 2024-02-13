@@ -49,12 +49,17 @@ console.log([...new Set(exampleRow1)]);
 document.addEventListener("click", (event) => {
     const target = event.target;
     const ValidChosenNumber = target.classList.contains("chosenNumber");
+    const ChooseNumberArray = Array.from(document.querySelectorAll(".chosenNumber"));
     if (ValidChosenNumber === true) {
+        ChooseNumberArray.forEach((element)=>
+        element.classList.remove("CurrentChosen"));
         currentnumber = target.id;
+        target.classList.add("CurrentChosen");
     }
     console.log(currentnumber);
+    console.log(ChooseNumberArray);
 });
-//todo kleur currentnumber zodat speler weet welke geselecteerd is
+
 // check for click to input number in grid
 document.addEventListener("click", (event) => {
     const target = event.target;
