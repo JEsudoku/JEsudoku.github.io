@@ -1,0 +1,64 @@
+<style>
+    #sudoku {
+        --cellsize: 5vh;
+        --border: 10px;
+        --sudokuwidth: calc(calc(3 * var(--cellsize)) + var(--border));
+        display: grid;
+        grid: repeat(3, var(--sudokuwidth)) / repeat(3, var(--sudokuwidth));
+        background: black;
+        gap: 4px;
+        box-sizing: border-box;
+    }
+
+    sudoku-block {
+        display: grid;
+        grid: repeat(3, 1fr) / repeat(3, 1fr);
+        background: green;
+        gap: 2px;
+        max-width: 150px;
+        box-sizing: border-box;
+        --border: 5px;
+        border: var(--border) solid red;
+    }
+
+    sudoku-cell {
+        width: var(--cellsize);
+        height: var(--cellsize);
+        display: inline-block;
+        background: beige;
+        text-align: center;
+    }
+</style>
+<div id="sudoku">
+    <sudoku-block row="1" column="1"></sudoku-block>
+    <sudoku-block></sudoku-block>
+    <sudoku-block></sudoku-block>
+    <sudoku-block></sudoku-block>
+    <sudoku-block></sudoku-block>
+    <sudoku-block></sudoku-block>
+    <sudoku-block></sudoku-block>
+    <sudoku-block></sudoku-block>
+    <sudoku-block></sudoku-block>
+</div>
+<script>
+    customElements.define("sudoku-block", class extends HTMLElement {
+        connectedCallback() {
+            let blocknr = [...this.parentNode.children].indexOf(this);
+            console.log("block:", blocknr);
+            this.setAttribute("block", blocknr);
+            this.innerHTML = Array(9).fill(0).map((value, index) => {
+                return `<sudoku-cell index="${index}">${index}</sudoku-cell>`
+            }).join("")
+        }
+    });
+    customElements.define("sudoku-cell", class extends HTMLElement {
+        connectedCallback() {
+            this.onclick = () => {
+                console.log("cell:", this);
+                console.log("block:", this.parentNode);
+            }
+        }
+    });
+
+
+</script>

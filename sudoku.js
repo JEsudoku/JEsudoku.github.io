@@ -17,7 +17,7 @@ function generateBoard(Cells) {
             cell.setAttribute("row", row);
             cell.setAttribute("col", col);
             cell.classList.add("Cells");
-            CellArray.push(Cells);
+            CellArray.push(cell);
             if ((row === 1 || row === 2) && (col === 1 || col === 2)) {
                 cell.setAttribute("block", 1)
             }
@@ -34,6 +34,7 @@ function generateBoard(Cells) {
     }
 
 }
+
 let CellArray = [];
 generateBoard(Cells);
 
@@ -56,8 +57,6 @@ document.addEventListener("click", (event) => {
         currentnumber = target.id;
         target.classList.add("CurrentChosen");
     }
-    console.log(currentnumber);
-    console.log(ChooseNumberArray);
 });
 
 // check for click to input number in grid
