@@ -59,20 +59,45 @@
             }
         }
     });
-    //todo add row and colun values to cells
-    // function RowandCol() {
-    //     let nodelistcells = querySelectorAll("sudoku-cell");
-    //     console.log(nodelistcells);
-    //     let AllCells = Array.from(querySelectorAll("sudoku-cell"));
-    //     console.log(Allcells);
-    //     Allcells.forEach(('sudoku-cell') => {
-    //         if((block = 0 || 1 || 2) && (index = 0 || 1 || 2)) {
-    //         SetAtrribute(row = "1")
-    //     } else if ((block = 0 || 1 || 2) && (index = 3 || 4 || 5){
-    //         SetAttribute(row = "2")
-    //     })
-    // });}
-    // RowandCol();
+    //todo add row and column values to cells
+    function Row() {
+        let nodelistcells = document.querySelectorAll("sudoku-cell");
+        console.log(nodelistcells);
+        let AllCells = Array.from(document.querySelectorAll("sudoku-cell"));
+        console.log(AllCells);
+        AllCells.forEach((element) => {
+            let isTopRowBlock = "0 1 2".includes(element.parentNode.getAttribute("block"));
+            let isMiddleRowBlock = "3 4 5".includes(element.parentNode.getAttribute("block"));
+            let isBottomRowBlock = "6 7 8".includes(element.parentNode.getAttribute("block"));
+            let index = element.getAttribute("index")
+            let isTopRow = index == "0" || index == "1" || index == "2"
+            let isMiddleRow = index == "3" || index == "4" || index == "5"
+            let isBottomRow = index == "6" || index == "7" || index == "8"
+            if (isTopRowBlock && isTopRow) {
+                element.setAttribute("row", 1);
+            } else if (isTopRowBlock && isMiddleRow) {
+                element.setAttribute("row", 2);
+            } else if (isTopRowBlock && isBottomRow) {
+                element.setAttribute("row", 3)
+            }
+            if (isMiddleRowBlock && isTopRow) {
+                element.setAttribute("row", 4);
+            } else if (isMiddleRowBlock && isMiddleRow) {
+                element.setAttribute("row", 5);
+            } else if (isMiddleRowBlock && isBottomRow) {
+                element.setAttribute("row", 6)
+            }
+            if (isBottomRowBlock && isTopRow) {
+                element.setAttribute("row", 7);
+            } else if (isBottomRowBlock && isMiddleRow) {
+                element.setAttribute("row", 8);
+            } else if (isBottomRowBlock && isBottomRow) {
+                element.setAttribute("row", 9)
+            }
+        })
+    };
+
+    Row();
     // etc...
 
 
