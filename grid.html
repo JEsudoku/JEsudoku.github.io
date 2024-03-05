@@ -103,7 +103,7 @@
         AllCells.forEach((element) => {
             let isLeftColBlock = "0 3 6".includes(element.parentNode.getAttribute("block"));
             let isMiddleColBlock = "1 4 7".includes(element.parentNode.getAttribute("block"));
-            let isRightColBlock = "2 6 8".includes(element.parentNode.getAttribute("block"));
+            let isRightColBlock = "2 5 8".includes(element.parentNode.getAttribute("block"));
             let index = element.getAttribute("index");
             let isLeftCol = index == "0" || index == "3" || index == "6"
             let isMiddleCol = index == "1" || index == "4" || index == "7"
