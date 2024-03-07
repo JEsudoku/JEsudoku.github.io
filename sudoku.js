@@ -46,6 +46,7 @@ console.log([...new Set(exampleRow1)]);
 // let randomnumber = Math.floor(Math.random() * 4 + 1);
 // console.log(randomnumber);
 
+//todo use in grid.html maybe?
 // click on numbers in choicerow to choose the number to input into grid (add color feedback later)
 document.addEventListener("click", (event) => {
     const target = event.target;

@@ -1,7 +1,7 @@
 <style>
     #sudoku {
-        --cellsize: 5vh;
-        --border: 10px;
+        --cellsize: 10vh;
+        --border: 14px;
         --sudokuwidth: calc(calc(3 * var(--cellsize)) + var(--border));
         display: grid;
         grid: repeat(3, var(--sudokuwidth)) / repeat(3, var(--sudokuwidth));
@@ -15,7 +15,7 @@
         grid: repeat(3, 1fr) / repeat(3, 1fr);
         background: green;
         gap: 2px;
-        max-width: 150px;
+        max-width: calc(var(--sudokuwidth) + 3px);
         box-sizing: border-box;
         --border: 5px;
         border: var(--border) solid red;
@@ -57,6 +57,7 @@
                 console.log("cell:", this);
                 console.log("block:", this.parentNode);
             }
+             
         }
     });
     //todo add row and column values to cells
