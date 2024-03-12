@@ -22,11 +22,22 @@
     }
 
     sudoku-cell {
+        grid: repeat(3, 1fr) / repeat(3, 1fr);
         width: var(--cellsize);
         height: var(--cellsize);
         display: inline-block;
         background: beige;
         text-align: center;
+    }
+
+    sudoku-choice {
+        visibility: hidden;
+        width: 3.1vh;
+        height: 3.1vh;
+        display: inline-block;
+        background: beige;
+        text-align: center;
+        border: 1px solid black;
     }
 </style>
 <div id="sudoku">
@@ -57,10 +68,11 @@
                 console.log("cell:", this);
                 console.log("block:", this.parentNode);
             }
-             
+            this.innerHTML = Array(9).fill(0).map((value, index) => {
+                return `<sudoku-choice index="${index}">${index}</sudoku-choice>`
+            }).join("")
         }
     });
-    //todo add row and column values to cells
 
     let nodelistcells = document.querySelectorAll("sudoku-cell");
     console.log(nodelistcells);
@@ -133,7 +145,4 @@
 
     Row();
     Col();
-    // etc...
-
-
 </script>
