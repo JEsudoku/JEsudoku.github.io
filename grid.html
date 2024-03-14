@@ -69,9 +69,18 @@
                 console.log("block:", this.parentNode);
             }
             this.innerHTML = Array(9).fill(0).map((value, index) => {
-                return `<sudoku-choice index="${index}">${index}</sudoku-choice>`
+                return `<sudoku-choice index="${index}">${index + 1}</sudoku-choice>`
             }).join("")
         }
+    });
+
+    document.addEventListener("click", (event) => {
+        const target = event.target
+        let targetCells = Array.from(target.children)
+        console.log(targetCells)
+        targetCells.forEach((element) => {
+            element.style.visibility = "visible"
+        })
     });
 
     let nodelistcells = document.querySelectorAll("sudoku-cell");
