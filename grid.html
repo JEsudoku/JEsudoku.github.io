@@ -57,6 +57,12 @@
     <sudoku-block></sudoku-block>
 </div>
 <script>
+
+    HTMLElement.prototype.textNodes = function () {
+        return [...this.childNodes].filter((node) => {
+            return (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== "");
+        });
+    }
     customElements.define("sudoku-block", class extends HTMLElement {
         connectedCallback() {
             let blocknr = [...this.parentNode.children].indexOf(this);
@@ -81,8 +87,11 @@
 
     document.addEventListener("click", (event) => {
         const target = event.target;
-        console.log(target);
+        console.log(target.textContent.length);
         if (target.hasChildNodes && !target.classList.contains('visible')) {
+            if(target.textContent.length>9){
+                          target.textNodes()[0].textContent = ''  
+            }
             let targetCells = Array.from(target.children);
             console.log(targetCells);
             targetCells.forEach((element) => {
@@ -100,7 +109,6 @@
             originalChoiceGridArray.forEach((element) => {
                 element.classList.remove("visible")
             })
-
         }
 
         else {
