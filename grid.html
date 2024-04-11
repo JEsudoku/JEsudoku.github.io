@@ -28,6 +28,7 @@
         display: inline-block;
         background: beige;
         text-align: center;
+
     }
 
     sudoku-choice {
@@ -38,6 +39,10 @@
         background: beige;
         text-align: center;
         border: 1px solid black;
+    }
+
+    .visible {
+        visibility: visible;
     }
 </style>
 <div id="sudoku">
@@ -75,13 +80,33 @@
     });
 
     document.addEventListener("click", (event) => {
-        const target = event.target
-        let targetCells = Array.from(target.children)
-        console.log(targetCells)
-        targetCells.forEach((element) => {
-            element.style.visibility = "visible"
-        })
-    });
+        const target = event.target;
+        console.log(target);
+        if (target.hasChildNodes && !target.classList.contains('visible')) {
+            let targetCells = Array.from(target.children);
+            console.log(targetCells);
+            targetCells.forEach((element) => {
+                element.classList.add("visible")
+            })
+
+        }
+
+        else if (target.classList.contains('visible')) {
+            let sudokuPickedCell = target.parentNode;
+            console.log(sudokuPickedCell);
+            let targetValue = target.textContent;
+            sudokuPickedCell.insertAdjacentHTML('afterBegin', targetValue);
+            let originalChoiceGridArray = Array.from(sudokuPickedCell.children);
+            originalChoiceGridArray.forEach((element) => {
+                element.classList.remove("visible")
+            })
+
+        }
+
+        else {
+            console.log("not a valid cell")
+        }
+    })
 
     let nodelistcells = document.querySelectorAll("sudoku-cell");
     console.log(nodelistcells);
