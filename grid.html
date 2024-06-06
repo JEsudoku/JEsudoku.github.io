@@ -30,10 +30,11 @@
         text-align: center;
         font-size: 5rem;
         justify-content: center;
+        z-index: 2;
 
     }
 
-    sudoku-choice { 
+    sudoku-choice {
         visibility: hidden;
         width: 3.1vh;
         height: 3.1vh;
@@ -44,9 +45,17 @@
         font-size: 0.3em
     }
 
+    sudoku-answer {
+        z-index: -1;
+    }
+
     .visible {
         visibility: visible;
         display: inline-block;
+    }
+
+    .wrong {
+        background-color: red;
     }
 </style>
 <div id="sudoku">
@@ -87,14 +96,24 @@
                 return `<sudoku-choice index="${index}">${index + 1}</sudoku-choice>`
             }).join("")
         }
+        get value() {
+            return this.querySelector('sudoku-answer') ? this.querySelector('sudoku-answer').innerHTML : null
+        }
     });
 
     document.addEventListener("click", (event) => {
         const target = event.target;
+        console.log(target);
         console.log(target.textContent.length);
         if (target.hasChildNodes && !target.classList.contains('visible')) {
-            if(target.textContent.length>9){
-                          target.textNodes()[0].textContent = ''  
+            if (target.textContent.length > 9) {
+                target.firstElementChild.textContent = ''
+            }
+            target.classList.remove("wrong")
+            let oldAnswer = target.querySelector('sudoku-answer');
+            console.log(oldAnswer);
+            if (typeof oldAnswer !== "undefined" && oldAnswer !== null) {
+                oldAnswer.remove();
             }
             let targetCells = Array.from(target.children);
             console.log(targetCells);
@@ -108,17 +127,66 @@
             let sudokuPickedCell = target.parentNode;
             console.log(sudokuPickedCell);
             let targetValue = target.textContent;
-            sudokuPickedCell.insertAdjacentHTML('afterBegin', targetValue);
+            let TargetElement = document.createElement('sudoku-answer');
+            TargetElement.innerHTML = targetValue;
+            sudokuPickedCell.insertAdjacentElement('afterBegin', TargetElement);
             let originalChoiceGridArray = Array.from(sudokuPickedCell.children);
             originalChoiceGridArray.forEach((element) => {
                 element.classList.remove("visible")
             })
+            checkErrorRows();
         }
 
         else {
             console.log("not a valid cell")
         }
     })
+
+    function checkErrorRows() {
+        for (let rownr = 1; rownr < 2; rownr++) {
+            let checkRowArray = Array.from(document.querySelectorAll(`[row="${rownr}"]`));
+            let checkRowContent = checkRowArray.map((cell, idx) => cell.value);
+            console.log(checkRowContent)
+            let duplicates = checkDuplicates(checkRowContent);
+            console.log(duplicates);
+            checkRowArray.forEach((element) => {
+                console.log("checked")
+                console.log(element)
+                let elementAnswer = element.value
+                console.log(elementAnswer);
+                if (duplicates.length !== 0 && elementAnswer !== null) {
+                if (elementAnswer.includes(duplicates)) {
+                    console.log(elementAnswer, duplicates)
+                    element.classList.add("wrong")
+                    console.log("wrong")
+                }
+                else (console.log("correct"))
+
+            }
+        })
+    }
+    }
+
+    function checkDuplicates(inputArray) {
+        const arraylength = inputArray.length;
+        // console.log("duplicatecheck activated", arraylength, inputArray)
+        const verwerktArray = [];
+        const duplicateArray = [];
+        for (let i = 0; i < arraylength; i++) {
+            if (inputArray[i]) {
+                let answer = inputArray[i]
+                if (verwerktArray.includes(answer) === true) {
+                    duplicateArray.push(answer);
+                } else {
+                    verwerktArray.push(answer);
+                }
+            }
+            console.warn(inputArray[i], duplicateArray, verwerktArray);
+
+        }
+        return duplicateArray
+    }
+
 
     let nodelistcells = document.querySelectorAll("sudoku-cell");
     console.log(nodelistcells);
