@@ -148,21 +148,21 @@
         for (let rownr = 1; rownr < 10; rownr++) {
             let checkRowArray = Array.from(document.querySelectorAll(`[row="${rownr}"]`));
             let checkRowContent = checkRowArray.map((cell, idx) => cell.value);
-            console.log(checkRowContent)
+            // console.log(checkRowContent)
             let duplicates = checkDuplicates(checkRowContent);
-            console.log(duplicates);
+            // console.log(duplicates);
             checkRowArray.forEach((element) => {
-                console.log("checked")
-                console.log(element)
+                // console.log("checked")
+                // console.log(element)
                 let elementAnswer = element.value
-                console.log(elementAnswer);
+                // console.log(elementAnswer);
                 if (duplicates.length !== 0 && elementAnswer !== null) {
                     if (duplicates.includes(elementAnswer)) {
-                        console.log(elementAnswer, duplicates)
+                        // console.log(elementAnswer, duplicates)
                         element.classList.add("wrong")
-                        console.log("wrong")
+                        // console.log("wrong")
                     }
-                    else (console.log("correct"))
+                    // else (console.log("correct"))
 
                 }
             })
@@ -187,22 +187,26 @@
     }
 
     // todo check why it doesnt work
-    // function checkErrorBlocks() {
-    //     for (let blocknr = 1; blocknr < 10; blocknr++) {
-    //         let checkBlockArray = Array.from(document.querySelectorAll(`[block="${blocknr}"]`));
-    //         let checkBlockContent = checkBlockArray.map((cell, idx) => cell.value);
-    //         let duplicates = checkDuplicates(checkBlockContent);
-    //         checkBlockArray.forEach((element) => {
-    //             let elementAnswer = element.value
-    //             if (duplicates.length !== 0 && elementAnswer !== null) {
-    //                 if (duplicates.includes(elementAnswer)) {
-    //                     element.classList.add("wrong")
-    //                 }
-    //                 else (console.log("correct"))
-    //             }
-    //         })
-    //     }
-    // }
+    function checkErrorBlocks() {
+        for (let blocknr = 0; blocknr < 9; blocknr++) {
+            let blockChildren = document.querySelector(`[block="${blocknr}"]`).children;
+            console.log(blockChildren)
+            let blockArray = Array.from(blockChildren);
+            console.log(blockArray)
+            let blockContent = blockArray.map((cell, idx) => cell.value);
+            console.log(blockContent);
+            let duplicates = checkDuplicates(blockContent);
+            blockArray.forEach((element) => {
+                let elementAnswer = element.value
+                if (duplicates.length !== 0 && elementAnswer !== null) {
+                    if (duplicates.includes(elementAnswer)) {
+                        element.classList.add("wrong")
+                    }
+                    else (console.log("correct"))
+                }
+            })
+        }
+    }
 
     function checkDuplicates(inputArray) {
         const arraylength = inputArray.length;
