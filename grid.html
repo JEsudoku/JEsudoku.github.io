@@ -143,7 +143,7 @@
     })
 
     function checkErrorRows() {
-        for (let rownr = 1; rownr < 2; rownr++) {
+        for (let rownr = 1; rownr < 10; rownr++) {
             let checkRowArray = Array.from(document.querySelectorAll(`[row="${rownr}"]`));
             let checkRowContent = checkRowArray.map((cell, idx) => cell.value);
             console.log(checkRowContent)
@@ -155,16 +155,16 @@
                 let elementAnswer = element.value
                 console.log(elementAnswer);
                 if (duplicates.length !== 0 && elementAnswer !== null) {
-                if (elementAnswer.includes(duplicates)) {
-                    console.log(elementAnswer, duplicates)
-                    element.classList.add("wrong")
-                    console.log("wrong")
-                }
-                else (console.log("correct"))
+                    if (duplicates.includes(elementAnswer)) {
+                        console.log(elementAnswer, duplicates)
+                        element.classList.add("wrong")
+                        console.log("wrong")
+                    }
+                    else (console.log("correct"))
 
-            }
-        })
-    }
+                }
+            })
+        }
     }
 
     function checkDuplicates(inputArray) {
