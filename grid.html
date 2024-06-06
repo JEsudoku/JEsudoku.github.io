@@ -135,6 +135,8 @@
                 element.classList.remove("visible")
             })
             checkErrorRows();
+            checkErrorColumns();
+            checkErrorBlocks();
         }
 
         else {
@@ -167,6 +169,41 @@
         }
     }
 
+    function checkErrorColumns() {
+        for (let colnr = 1; colnr < 10; colnr++) {
+            let checkColArray = Array.from(document.querySelectorAll(`[col="${colnr}"]`));
+            let checkColContent = checkColArray.map((cell, idx) => cell.value);
+            let duplicates = checkDuplicates(checkColContent);
+            checkColArray.forEach((element) => {
+                let elementAnswer = element.value
+                if (duplicates.length !== 0 && elementAnswer !== null) {
+                    if (duplicates.includes(elementAnswer)) {
+                        element.classList.add("wrong")
+                    }
+                    else (console.log("correct"))
+                }
+            })
+        }
+    }
+
+    // todo check why it doesnt work
+    // function checkErrorBlocks() {
+    //     for (let blocknr = 1; blocknr < 10; blocknr++) {
+    //         let checkBlockArray = Array.from(document.querySelectorAll(`[block="${blocknr}"]`));
+    //         let checkBlockContent = checkBlockArray.map((cell, idx) => cell.value);
+    //         let duplicates = checkDuplicates(checkBlockContent);
+    //         checkBlockArray.forEach((element) => {
+    //             let elementAnswer = element.value
+    //             if (duplicates.length !== 0 && elementAnswer !== null) {
+    //                 if (duplicates.includes(elementAnswer)) {
+    //                     element.classList.add("wrong")
+    //                 }
+    //                 else (console.log("correct"))
+    //             }
+    //         })
+    //     }
+    // }
+
     function checkDuplicates(inputArray) {
         const arraylength = inputArray.length;
         // console.log("duplicatecheck activated", arraylength, inputArray)
@@ -181,7 +218,7 @@
                     verwerktArray.push(answer);
                 }
             }
-            console.warn(inputArray[i], duplicateArray, verwerktArray);
+            // console.warn(inputArray[i], duplicateArray, verwerktArray);
 
         }
         return duplicateArray
