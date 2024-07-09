@@ -101,44 +101,58 @@
         }
     });
 
+    function getTemplate() {
+        let template = Math.floor(Math.random() * 10) + 1;
+        console.log("current template is " + template)
+    }
+    getTemplate();
+
+    function setTemplate() {
+        if (template === 1) {
+
+        }
+    }
+
     document.addEventListener("click", (event) => {
         const target = event.target;
         console.log(target);
-        console.log(target.textContent.length);
-        if (target.hasChildNodes && !target.classList.contains('visible')) {
-            if (target.textContent.length > 9) {
-                target.firstElementChild.textContent = ''
+        const validtarget = document.querySelectorAll("sudoku-cell")
+        const validarray = Array.from(validtarget);
+        const validtargetchoice = document.querySelectorAll('sudoku-choice');
+        const validarraychoice = Array.from(validtargetchoice);
+        if (validarray.includes(target) || validarraychoice.includes(target)) {
+            if (target.hasChildNodes && !target.classList.contains('visible')) {
+                if (target.textContent.length > 9) {
+                    target.firstElementChild.textContent = ''
+                }
+                target.classList.remove("wrong")
+                let oldAnswer = target.querySelector('sudoku-answer');
+                console.log(oldAnswer);
+                if (typeof oldAnswer !== "undefined" && oldAnswer !== null) {
+                    oldAnswer.remove();
+                }
+                let targetCells = Array.from(target.children);
+                console.log(targetCells);
+                targetCells.forEach((element) => {
+                    element.classList.add("visible")
+                })
             }
-            target.classList.remove("wrong")
-            let oldAnswer = target.querySelector('sudoku-answer');
-            console.log(oldAnswer);
-            if (typeof oldAnswer !== "undefined" && oldAnswer !== null) {
-                oldAnswer.remove();
+            else if (target.classList.contains('visible')) {
+                let sudokuPickedCell = target.parentNode;
+                console.log(sudokuPickedCell);
+                let targetValue = target.textContent;
+                let TargetElement = document.createElement('sudoku-answer');
+                TargetElement.innerHTML = targetValue;
+                sudokuPickedCell.insertAdjacentElement('afterBegin', TargetElement);
+                let originalChoiceGridArray = Array.from(sudokuPickedCell.children);
+                originalChoiceGridArray.forEach((element) => {
+                    element.classList.remove("visible")
+                })
+                checkErrorRows();
+                checkErrorColumns();
+                checkErrorBlocks();
             }
-            let targetCells = Array.from(target.children);
-            console.log(targetCells);
-            targetCells.forEach((element) => {
-                element.classList.add("visible")
-            })
-
         }
-
-        else if (target.classList.contains('visible')) {
-            let sudokuPickedCell = target.parentNode;
-            console.log(sudokuPickedCell);
-            let targetValue = target.textContent;
-            let TargetElement = document.createElement('sudoku-answer');
-            TargetElement.innerHTML = targetValue;
-            sudokuPickedCell.insertAdjacentElement('afterBegin', TargetElement);
-            let originalChoiceGridArray = Array.from(sudokuPickedCell.children);
-            originalChoiceGridArray.forEach((element) => {
-                element.classList.remove("visible")
-            })
-            checkErrorRows();
-            checkErrorColumns();
-            checkErrorBlocks();
-        }
-
         else {
             console.log("not a valid cell")
         }
@@ -186,7 +200,6 @@
         }
     }
 
-    // todo check why it doesnt work
     function checkErrorBlocks() {
         for (let blocknr = 0; blocknr < 9; blocknr++) {
             let blockChildren = document.querySelector(`[block="${blocknr}"]`).children;
