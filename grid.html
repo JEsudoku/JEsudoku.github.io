@@ -101,15 +101,50 @@
         }
     });
 
+    const template = 1
+
+    let nodelistcells = document.querySelectorAll("sudoku-cell");
+    const AllCells = Array.from(document.querySelectorAll("sudoku-cell"));
+
+    Row();
+    Col();
+    let AllCellsrow1 = Array.from(document.querySelectorAll(`[row="${1}"]`));
+    let AllCellsrow2 = Array.from(document.querySelectorAll(`[row="${2}"]`));
+    let AllCellsrow3 = Array.from(document.querySelectorAll(`[row="${3}"]`));
+    let AllCellsrow4 = Array.from(document.querySelectorAll(`[row="${4}"]`));
+    let AllCellsrow5 = Array.from(document.querySelectorAll(`[row="${5}"]`));
+    let AllCellsrow6 = Array.from(document.querySelectorAll(`[row="${6}"]`));
+    let AllCellsrow7 = Array.from(document.querySelectorAll(`[row="${7}"]`));
+    let AllCellsrow8 = Array.from(document.querySelectorAll(`[row="${8}"]`));
+    let AllCellsrow9 = Array.from(document.querySelectorAll(`[row="${9}"]`));
+    let AllCellsrows = AllCellsrow1.concat(AllCellsrow2, AllCellsrow3, AllCellsrow4, AllCellsrow5, AllCellsrow6, AllCellsrow7, AllCellsrow8, AllCellsrow9);
+    console.log(AllCellsrows)
+
     function getTemplate() {
-        let template = Math.floor(Math.random() * 10) + 1;
+        // let template = Math.floor(Math.random() * 10) + 1;
+        const template = 1
         console.log("current template is " + template)
+        return template
     }
     getTemplate();
 
     function setTemplate() {
         if (template === 1) {
+            templateArray = [1, 3, 8, 0, 9, 0, 0, 2, 0, 9, 5, 2, 1, 0, 4, 0, 0, 8, 0, 0, 0, 2, 5, 0, 9, 3, 0, 0, 0, 5, 0, 0, 0, 0, 7, 0, 0, 2, 0, 0, 7, 0, 6, 0, 9, 7, 0, 0, 0, 0, 9, 0, 0, 5, 0, 0, 0, 0, 0, 5, 0, 8, 0, 5, 0, 7, 3, 4, 0, 1, 9, 0, 0, 1, 0, 7, 0, 6, 2, 0, 0]
+        }
+    }
 
+    let templateArray = {}
+
+    setTemplate();
+    setPuzzle();
+
+    function setPuzzle() {
+        for (let i = 0; i < AllCellsrows.length; i++) {
+            if (templateArray[i] != 0) {
+                AllCellsrows[i].innerHTML = templateArray[i]
+            }
+            else { };
         }
     }
 
@@ -241,12 +276,6 @@
         return duplicateArray
     }
 
-
-    let nodelistcells = document.querySelectorAll("sudoku-cell");
-    console.log(nodelistcells);
-    let AllCells = Array.from(document.querySelectorAll("sudoku-cell"));
-    console.log(AllCells);
-
     function Row() {
         AllCells.forEach((element) => {
             let isTopRowBlock = "0 1 2".includes(element.parentNode.getAttribute("block"));
@@ -310,7 +339,4 @@
             }
         })
     }
-
-    Row();
-    Col();
 </script>
