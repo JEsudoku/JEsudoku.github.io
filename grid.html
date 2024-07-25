@@ -57,6 +57,12 @@
     .wrong {
         background-color: red;
     }
+
+    .locked{
+        color:darkslateblue;
+    }
+
+
 </style>
 <div id="sudoku">
     <sudoku-block></sudoku-block>
@@ -108,6 +114,7 @@
 
     Row();
     Col();
+
     let AllCellsrow1 = Array.from(document.querySelectorAll(`[row="${1}"]`));
     let AllCellsrow2 = Array.from(document.querySelectorAll(`[row="${2}"]`));
     let AllCellsrow3 = Array.from(document.querySelectorAll(`[row="${3}"]`));
@@ -142,7 +149,10 @@
     function setPuzzle() {
         for (let i = 0; i < AllCellsrows.length; i++) {
             if (templateArray[i] != 0) {
-                AllCellsrows[i].innerHTML = templateArray[i]
+                let templateAnswer = document.createElement('sudoku-answer');
+                templateAnswer.innerHTML = templateArray[i]
+                AllCellsrows[i].insertAdjacentElement("afterBegin", templateAnswer)
+                AllCellsrows[i].classList.add("locked")
             }
             else { };
         }
@@ -153,43 +163,45 @@
         console.log(target);
         const validtarget = document.querySelectorAll("sudoku-cell")
         const validarray = Array.from(validtarget);
+        validarray.forEach((element) => element.classList.remove("wrong"));
         const validtargetchoice = document.querySelectorAll('sudoku-choice');
         const validarraychoice = Array.from(validtargetchoice);
         if (validarray.includes(target) || validarraychoice.includes(target)) {
-            if (target.hasChildNodes && !target.classList.contains('visible')) {
-                if (target.textContent.length > 9) {
-                    target.firstElementChild.textContent = ''
+            if (!target.classList.contains("locked")) {
+                if (target.hasChildNodes && !target.classList.contains('visible')) {
+                    if (target.textContent.length > 9) {
+                        target.firstElementChild.textContent = ''
+                    }
+                    let oldAnswer = target.querySelector('sudoku-answer');
+                    console.log(oldAnswer);
+                    if (typeof oldAnswer !== "undefined" && oldAnswer !== null) {
+                        oldAnswer.remove();
+                    }
+                    let targetCells = Array.from(target.children);
+                    console.log(targetCells);
+                    targetCells.forEach((element) => {
+                        element.classList.add("visible")
+                    })
                 }
-                target.classList.remove("wrong")
-                let oldAnswer = target.querySelector('sudoku-answer');
-                console.log(oldAnswer);
-                if (typeof oldAnswer !== "undefined" && oldAnswer !== null) {
-                    oldAnswer.remove();
+                else if (target.classList.contains('visible')) {
+                    let sudokuPickedCell = target.parentNode;
+                    console.log(sudokuPickedCell);
+                    let targetValue = target.textContent;
+                    let TargetElement = document.createElement('sudoku-answer');
+                    TargetElement.innerHTML = targetValue;
+                    sudokuPickedCell.insertAdjacentElement('afterBegin', TargetElement);
+                    let originalChoiceGridArray = Array.from(sudokuPickedCell.children);
+                    originalChoiceGridArray.forEach((element) => {
+                        element.classList.remove("visible")
+                    })
+                    checkErrorRows();
+                    checkErrorColumns();
+                    checkErrorBlocks();
                 }
-                let targetCells = Array.from(target.children);
-                console.log(targetCells);
-                targetCells.forEach((element) => {
-                    element.classList.add("visible")
-                })
             }
-            else if (target.classList.contains('visible')) {
-                let sudokuPickedCell = target.parentNode;
-                console.log(sudokuPickedCell);
-                let targetValue = target.textContent;
-                let TargetElement = document.createElement('sudoku-answer');
-                TargetElement.innerHTML = targetValue;
-                sudokuPickedCell.insertAdjacentElement('afterBegin', TargetElement);
-                let originalChoiceGridArray = Array.from(sudokuPickedCell.children);
-                originalChoiceGridArray.forEach((element) => {
-                    element.classList.remove("visible")
-                })
-                checkErrorRows();
-                checkErrorColumns();
-                checkErrorBlocks();
+            else {
+                console.log("not a valid cell")
             }
-        }
-        else {
-            console.log("not a valid cell")
         }
     })
 
@@ -197,9 +209,9 @@
         for (let rownr = 1; rownr < 10; rownr++) {
             let checkRowArray = Array.from(document.querySelectorAll(`[row="${rownr}"]`));
             let checkRowContent = checkRowArray.map((cell, idx) => cell.value);
-            // console.log(checkRowContent)
+            console.log(checkRowContent)
             let duplicates = checkDuplicates(checkRowContent);
-            // console.log(duplicates);
+            console.log(duplicates);
             checkRowArray.forEach((element) => {
                 // console.log("checked")
                 // console.log(element)
