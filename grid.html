@@ -58,11 +58,9 @@
         background-color: red;
     }
 
-    .locked{
-        color:darkslateblue;
+    .locked {
+        color: darkslateblue;
     }
-
-
 </style>
 <div id="sudoku">
     <sudoku-block></sudoku-block>
@@ -138,6 +136,7 @@
     function setTemplate() {
         if (template === 1) {
             templateArray = [1, 3, 8, 0, 9, 0, 0, 2, 0, 9, 5, 2, 1, 0, 4, 0, 0, 8, 0, 0, 0, 2, 5, 0, 9, 3, 0, 0, 0, 5, 0, 0, 0, 0, 7, 0, 0, 2, 0, 0, 7, 0, 6, 0, 9, 7, 0, 0, 0, 0, 9, 0, 0, 5, 0, 0, 0, 0, 0, 5, 0, 8, 0, 5, 0, 7, 3, 4, 0, 1, 9, 0, 0, 1, 0, 7, 0, 6, 2, 0, 0]
+
         }
     }
 
@@ -197,6 +196,7 @@
                     checkErrorRows();
                     checkErrorColumns();
                     checkErrorBlocks();
+                    checkWin();
                 }
             }
             else {
@@ -250,11 +250,11 @@
     function checkErrorBlocks() {
         for (let blocknr = 0; blocknr < 9; blocknr++) {
             let blockChildren = document.querySelector(`[block="${blocknr}"]`).children;
-            console.log(blockChildren)
+            // console.log(blockChildren)
             let blockArray = Array.from(blockChildren);
-            console.log(blockArray)
+            // console.log(blockArray)
             let blockContent = blockArray.map((cell, idx) => cell.value);
-            console.log(blockContent);
+            // console.log(blockContent);
             let duplicates = checkDuplicates(blockContent);
             blockArray.forEach((element) => {
                 let elementAnswer = element.value
@@ -350,5 +350,19 @@
                 element.setAttribute("col", 9)
             }
         })
+    }
+
+    function checkWin() {
+        // check is every cell is filled
+        let AllCellsAnswers = document.querySelectorAll("sudoku-answer").length;
+        console.log(AllCellsAnswers);
+        // check is sudoku contains errors
+        let AllSudokuCellsArray = Array.from(document.querySelectorAll('sudoku-cell'));
+        let AllCellsError = AllSudokuCellsArray.some(element => element.classList.contains("wrong"));
+        console.log(AllCellsError);
+        //check win
+        if (AllCellsAnswers === 81 && AllCellsError == false) {
+            alert("you win!")
+        }
     }
 </script>
