@@ -30,7 +30,7 @@
         text-align: center;
         font-size: 5rem;
         justify-content: center;
-        z-index: 2;
+        z-index: 1;
 
     }
 
@@ -46,7 +46,9 @@
     }
 
     sudoku-answer {
-        z-index: -1;
+        z-index: 2;
+        pointer-events: none;
+
     }
 
     .visible {
@@ -61,6 +63,17 @@
     .locked {
         color: darkslateblue;
     }
+
+    .rules-box {
+        background-color: white;
+        position: absolute;
+        font-size: 2rem;
+        height: auto;
+        width: 500px;
+        right: 200px;
+        top: 100px;
+
+    }
 </style>
 <div id="sudoku">
     <sudoku-block></sudoku-block>
@@ -72,7 +85,19 @@
     <sudoku-block></sudoku-block>
     <sudoku-block></sudoku-block>
     <sudoku-block></sudoku-block>
+    <div class="rules-box">sudoku rules:
+        <ul>
+            <li>Each row must contain the numbers 1-9 exactly once each.</li>
+            <li> Each column must contain the numbers 1-9 exactly once each.</li>
+            <li> Each 3 by 3 box must contain the numbers 1-9 exactly once each.</li>
+            <li>You can only use the numbers 1 to 9.</li>
+            <li>Each number in the 3 by 3 block, vertical column or horizontal row can be used only once.</li>
+            <li> Avoid trying to guess the solution to the puzzle. Use the process of elimination as a tactic instead.
+            </li>
+        </ul>
+    </div>
 </div>
+
 <script>
 
     HTMLElement.prototype.textNodes = function () {
@@ -105,8 +130,6 @@
         }
     });
 
-    const template = 1
-
     let nodelistcells = document.querySelectorAll("sudoku-cell");
     const AllCells = Array.from(document.querySelectorAll("sudoku-cell"));
 
@@ -126,20 +149,25 @@
     console.log(AllCellsrows)
 
     function getTemplate() {
-        // let template = Math.floor(Math.random() * 10) + 1;
-        const template = 1
+        let template = Math.floor(Math.random() * 4) + 1;
+        //const template = 1
         console.log("current template is " + template)
         return template
     }
-    getTemplate();
 
     function setTemplate() {
         if (template === 1) {
             templateArray = [1, 3, 8, 0, 9, 0, 0, 2, 0, 9, 5, 2, 1, 0, 4, 0, 0, 8, 0, 0, 0, 2, 5, 0, 9, 3, 0, 0, 0, 5, 0, 0, 0, 0, 7, 0, 0, 2, 0, 0, 7, 0, 6, 0, 9, 7, 0, 0, 0, 0, 9, 0, 0, 5, 0, 0, 0, 0, 0, 5, 0, 8, 0, 5, 0, 7, 3, 4, 0, 1, 9, 0, 0, 1, 0, 7, 0, 6, 2, 0, 0]
-
+        }
+        else if (template === 2) {
+            templateArray = [0, 1, 0, 7, 0, 6, 2, 0, 0, 5, 0, 7, 3, 4, 0, 1, 9, 0, 0, 0, 0, 0, 0, 5, 0, 8, 0, 7, 0, 0, 0, 0, 9, 0, 0, 5, 0, 2, 0, 0, 7, 0, 6, 0, 9, 0, 0, 5, 0, 0, 0, 0, 7, 0, 0, 0, 0, 2, 5, 0, 9, 3, 0, 9, 5, 2, 1, 0, 4, 0, 0, 8, 1, 3, 8, 0, 9, 0, 0, 2, 0]
+        } else if (template === 3) {
+            templateArray = [8, 9, 0, 7, 3, 0, 4, 6, 0, 0, 4, 0, 2, 0, 8, 3, 5, 7, 7, 0, 3, 0, 0, 0, 8, 9, 2, 4, 6, 9, 3, 5, 7, 2, 0, 8, 0, 0, 0, 9, 8, 0, 0, 0, 5, 5, 1, 0, 4, 0, 0, 0, 3, 9, 6, 8, 0, 0, 0, 9, 0, 7, 0, 0, 7, 1, 8, 4, 3, 0, 0, 6, 0, 3, 5, 1, 0, 0, 0, 8, 4]
+        } else if (template === 4) {
+            templateArray = [0, 9, 0, 0, 0, 5, 0, 0, 4, 0, 6, 8, 9, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 2, 1, 0, 8, 0, 0, 0, 0, 0, 4, 0, 0, 7, 9, 0, 0, 0, 0, 0, 0, 0, 3, 1, 0, 0, 5, 0, 0, 0, 0, 0, 5, 0, 3, 4, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 9, 5, 8, 0, 6, 0, 0, 8, 0, 0, 0, 4, 0]
         }
     }
-
+    const template = getTemplate()
     let templateArray = {}
 
     setTemplate();
