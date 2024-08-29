@@ -1,0 +1,75 @@
+#sudoku {
+    --cellsize: 10vh;
+    --border: 14px;
+    --sudokuwidth: calc(calc(3 * var(--cellsize)) + var(--border));
+    display: grid;
+    grid: repeat(3, var(--sudokuwidth)) / repeat(3, var(--sudokuwidth));
+    background: black;
+    gap: 4px;
+    box-sizing: border-box;
+}
+
+sudoku-block {
+    display: grid;
+    grid: repeat(3, 1fr) / repeat(3, 1fr);
+    background: green;
+    gap: 2px;
+    max-width: calc(var(--sudokuwidth) + 3px);
+    box-sizing: border-box;
+    --border: 5px;
+    border: var(--border) solid red;
+}
+
+sudoku-cell {
+    grid: repeat(3, 1fr) / repeat(3, 1fr);
+    width: var(--cellsize);
+    height: var(--cellsize);
+    display: inline-block;
+    background: beige;
+    text-align: center;
+    font-size: 5rem;
+    justify-content: center;
+    z-index: 1;
+
+}
+
+sudoku-choice {
+    visibility: hidden;
+    width: 3.1vh;
+    height: 3.1vh;
+    display: none;
+    background: beige;
+    text-align: center;
+    border: 1px solid black;
+    font-size: 0.3em
+}
+
+sudoku-answer {
+    z-index: 2;
+    pointer-events: none;
+
+}
+
+.visible {
+    visibility: visible;
+    display: inline-block;
+}
+
+.wrong {
+    background-color: red;
+}
+
+.locked {
+    color: darkslateblue;
+}
+
+.rules-box {
+    background-color: white;
+    position: absolute;
+    font-size: 2rem;
+    height: auto;
+    width: 500px;
+    right: 200px;
+    top: 100px;
+
+}

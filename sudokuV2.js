@@ -1,0 +1,299 @@
+HTMLElement.prototype.textNodes = function () {
+    return [...this.childNodes].filter((node) => {
+        return (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== "");
+    });
+}
+customElements.define("sudoku-block", class extends HTMLElement {
+    connectedCallback() {
+        let blocknr = [...this.parentNode.children].indexOf(this);
+        console.log("block:", blocknr);
+        this.setAttribute("block", blocknr);
+        this.innerHTML = Array(9).fill(0).map((value, index) => {
+            return `<sudoku-cell index="${index}">${index}</sudoku-cell>`
+        }).join("")
+    }
+});
+customElements.define("sudoku-cell", class extends HTMLElement {
+    connectedCallback() {
+        this.onclick = () => {
+            console.log("cell:", this);
+            console.log("block:", this.parentNode);
+        }
+        this.innerHTML = Array(9).fill(0).map((value, index) => {
+            return `<sudoku-choice index="${index}">${index + 1}</sudoku-choice>`
+        }).join("")
+    }
+    get value() {
+        return this.querySelector('sudoku-answer') ? this.querySelector('sudoku-answer').innerHTML : null
+    }
+});
+
+let nodelistcells = document.querySelectorAll("sudoku-cell");
+const AllCells = Array.from(document.querySelectorAll("sudoku-cell"));
+
+Row();
+Col();
+
+let AllCellsrow1 = Array.from(document.querySelectorAll(`[row="${1}"]`));
+let AllCellsrow2 = Array.from(document.querySelectorAll(`[row="${2}"]`));
+let AllCellsrow3 = Array.from(document.querySelectorAll(`[row="${3}"]`));
+let AllCellsrow4 = Array.from(document.querySelectorAll(`[row="${4}"]`));
+let AllCellsrow5 = Array.from(document.querySelectorAll(`[row="${5}"]`));
+let AllCellsrow6 = Array.from(document.querySelectorAll(`[row="${6}"]`));
+let AllCellsrow7 = Array.from(document.querySelectorAll(`[row="${7}"]`));
+let AllCellsrow8 = Array.from(document.querySelectorAll(`[row="${8}"]`));
+let AllCellsrow9 = Array.from(document.querySelectorAll(`[row="${9}"]`));
+let AllCellsrows = AllCellsrow1.concat(AllCellsrow2, AllCellsrow3, AllCellsrow4, AllCellsrow5, AllCellsrow6, AllCellsrow7, AllCellsrow8, AllCellsrow9);
+console.log(AllCellsrows)
+
+function getTemplate() {
+    let template = Math.floor(Math.random() * 7) + 1;
+    //const template = 7
+    console.log("current template is " + template)
+    return template
+}
+
+function setTemplate() {
+    if (template === 1) {
+        templateArray = [1, 3, 8, 0, 9, 0, 0, 2, 0, 9, 5, 2, 1, 0, 4, 0, 0, 8, 0, 0, 0, 2, 5, 0, 9, 3, 0, 0, 0, 5, 0, 0, 0, 0, 7, 0, 0, 2, 0, 0, 7, 0, 6, 0, 9, 7, 0, 0, 0, 0, 9, 0, 0, 5, 0, 0, 0, 0, 0, 5, 0, 8, 0, 5, 0, 7, 3, 4, 0, 1, 9, 0, 0, 1, 0, 7, 0, 6, 2, 0, 0]
+    }
+    else if (template === 2) {
+        templateArray = [0, 1, 0, 7, 0, 6, 2, 0, 0, 5, 0, 7, 3, 4, 0, 1, 9, 0, 0, 0, 0, 0, 0, 5, 0, 8, 0, 7, 0, 0, 0, 0, 9, 0, 0, 5, 0, 2, 0, 0, 7, 0, 6, 0, 9, 0, 0, 5, 0, 0, 0, 0, 7, 0, 0, 0, 0, 2, 5, 0, 9, 3, 0, 9, 5, 2, 1, 0, 4, 0, 0, 8, 1, 3, 8, 0, 9, 0, 0, 2, 0]
+    } else if (template === 3) {
+        templateArray = [8, 9, 0, 7, 3, 0, 4, 6, 0, 0, 4, 0, 2, 0, 8, 3, 5, 7, 7, 0, 3, 0, 0, 0, 8, 9, 2, 4, 6, 9, 3, 5, 7, 2, 0, 8, 0, 0, 0, 9, 8, 0, 0, 0, 5, 5, 1, 0, 4, 0, 0, 0, 3, 9, 6, 8, 0, 0, 0, 9, 0, 7, 0, 0, 7, 1, 8, 4, 3, 0, 0, 6, 0, 3, 5, 1, 0, 0, 0, 8, 4]
+    } else if (template === 4) {
+        templateArray = [0, 9, 0, 0, 0, 5, 0, 0, 4, 0, 6, 8, 9, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 2, 1, 0, 8, 0, 0, 0, 0, 0, 4, 0, 0, 7, 9, 0, 0, 0, 0, 0, 0, 0, 3, 1, 0, 0, 5, 0, 0, 0, 0, 0, 5, 0, 3, 4, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 9, 5, 8, 0, 6, 0, 0, 8, 0, 0, 0, 4, 0]
+    } else if (template === 5) {
+        templateArray = [8, 0, 7, 4, 0, 5, 6, 0, 0, 9, 4, 0, 6, 0, 1, 8, 7, 3, 0, 0, 3, 9, 0, 0, 0, 1, 5, 7, 2, 0, 3, 9, 4, 0, 8, 1, 3, 0, 0, 5, 8, 0, 0, 4, 0, 0, 8, 0, 7, 0, 0, 9, 3, 0, 4, 3, 8, 2, 0, 0, 0, 0, 0, 6, 5, 9, 0, 0, 3, 7, 0, 8, 0, 7, 2, 8, 5, 9, 0, 6, 4]
+    } else if (template === 6) {
+        templateArray = [0, 2, 0, 0, 0, 9, 0, 5, 0, 4, 8, 0, 5, 0, 0, 0, 0, 0, 5, 0, 0, 8, 0, 0, 9, 1, 4, 0, 4, 0, 0, 6, 0, 8, 0, 0, 0, 7, 0, 4, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 1, 0, 7, 0, 5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 2, 3, 0, 6, 9]
+    } else if (template === 7) {
+        templateArray = [0, 4, 5, 0, 0, 0, 0, 0, 0, 2, 8, 0, 4, 7, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0, 4, 0, 7, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 2, 9, 0, 0, 0, 0, 7, 5, 0, 3, 0, 0, 9, 8, 0, 0, 3, 0, 0, 5, 0, 1, 0, 0, 0, 0, 8, 6, 0, 0, 4, 0, 1, 0, 0, 0, 9]
+    }
+}
+const template = getTemplate()
+let templateArray = {}
+
+setTemplate();
+setPuzzle();
+
+function setPuzzle() {
+    for (let i = 0; i < AllCellsrows.length; i++) {
+        if (templateArray[i] != 0) {
+            let templateAnswer = document.createElement('sudoku-answer');
+            templateAnswer.innerHTML = templateArray[i]
+            AllCellsrows[i].insertAdjacentElement("afterBegin", templateAnswer)
+            AllCellsrows[i].classList.add("locked")
+        }
+        else { };
+    }
+}
+
+document.addEventListener("click", (event) => {
+    const target = event.target;
+    console.log(target);
+    const validtarget = document.querySelectorAll("sudoku-cell")
+    const validarray = Array.from(validtarget);
+    validarray.forEach((element) => element.classList.remove("wrong"));
+    const validtargetchoice = document.querySelectorAll('sudoku-choice');
+    const validarraychoice = Array.from(validtargetchoice);
+    if (validarray.includes(target) || validarraychoice.includes(target)) {
+        if (!target.classList.contains("locked")) {
+            if (target.hasChildNodes && !target.classList.contains('visible')) {
+                if (target.textContent.length > 9) {
+                    target.firstElementChild.textContent = ''
+                }
+                let oldAnswer = target.querySelector('sudoku-answer');
+                console.log(oldAnswer);
+                if (typeof oldAnswer !== "undefined" && oldAnswer !== null) {
+                    oldAnswer.remove();
+                }
+                let targetCells = Array.from(target.children);
+                console.log(targetCells);
+                targetCells.forEach((element) => {
+                    element.classList.add("visible")
+                })
+            }
+            else if (target.classList.contains('visible')) {
+                let sudokuPickedCell = target.parentNode;
+                console.log(sudokuPickedCell);
+                let targetValue = target.textContent;
+                let TargetElement = document.createElement('sudoku-answer');
+                TargetElement.innerHTML = targetValue;
+                sudokuPickedCell.insertAdjacentElement('afterBegin', TargetElement);
+                let originalChoiceGridArray = Array.from(sudokuPickedCell.children);
+                originalChoiceGridArray.forEach((element) => {
+                    element.classList.remove("visible")
+                })
+                checkErrorRows();
+                checkErrorColumns();
+                checkErrorBlocks();
+                checkWin();
+            }
+        }
+        else {
+            console.log("not a valid cell")
+        }
+    }
+})
+
+function checkErrorRows() {
+    for (let rownr = 1; rownr < 10; rownr++) {
+        let checkRowArray = Array.from(document.querySelectorAll(`[row="${rownr}"]`));
+        let checkRowContent = checkRowArray.map((cell, idx) => cell.value);
+        console.log(checkRowContent)
+        let duplicates = checkDuplicates(checkRowContent);
+        console.log(duplicates);
+        checkRowArray.forEach((element) => {
+            // console.log("checked")
+            // console.log(element)
+            let elementAnswer = element.value
+            // console.log(elementAnswer);
+            if (duplicates.length !== 0 && elementAnswer !== null) {
+                if (duplicates.includes(elementAnswer)) {
+                    // console.log(elementAnswer, duplicates)
+                    element.classList.add("wrong")
+                    // console.log("wrong")
+                }
+                // else (console.log("correct"))
+
+            }
+        })
+    }
+}
+
+function checkErrorColumns() {
+    for (let colnr = 1; colnr < 10; colnr++) {
+        let checkColArray = Array.from(document.querySelectorAll(`[col="${colnr}"]`));
+        let checkColContent = checkColArray.map((cell, idx) => cell.value);
+        let duplicates = checkDuplicates(checkColContent);
+        checkColArray.forEach((element) => {
+            let elementAnswer = element.value
+            if (duplicates.length !== 0 && elementAnswer !== null) {
+                if (duplicates.includes(elementAnswer)) {
+                    element.classList.add("wrong")
+                }
+                else (console.log("correct"))
+            }
+        })
+    }
+}
+
+function checkErrorBlocks() {
+    for (let blocknr = 0; blocknr < 9; blocknr++) {
+        let blockChildren = document.querySelector(`[block="${blocknr}"]`).children;
+        // console.log(blockChildren)
+        let blockArray = Array.from(blockChildren);
+        // console.log(blockArray)
+        let blockContent = blockArray.map((cell, idx) => cell.value);
+        // console.log(blockContent);
+        let duplicates = checkDuplicates(blockContent);
+        blockArray.forEach((element) => {
+            let elementAnswer = element.value
+            if (duplicates.length !== 0 && elementAnswer !== null) {
+                if (duplicates.includes(elementAnswer)) {
+                    element.classList.add("wrong")
+                }
+                else (console.log("correct"))
+            }
+        })
+    }
+}
+
+function checkDuplicates(inputArray) {
+    const arraylength = inputArray.length;
+    // console.log("duplicatecheck activated", arraylength, inputArray)
+    const verwerktArray = [];
+    const duplicateArray = [];
+    for (let i = 0; i < arraylength; i++) {
+        if (inputArray[i]) {
+            let answer = inputArray[i]
+            if (verwerktArray.includes(answer) === true) {
+                duplicateArray.push(answer);
+            } else {
+                verwerktArray.push(answer);
+            }
+        }
+        // console.warn(inputArray[i], duplicateArray, verwerktArray);
+
+    }
+    return duplicateArray
+}
+
+function Row() {
+    AllCells.forEach((element) => {
+        let isTopRowBlock = "0 1 2".includes(element.parentNode.getAttribute("block"));
+        let isMiddleRowBlock = "3 4 5".includes(element.parentNode.getAttribute("block"));
+        let isBottomRowBlock = "6 7 8".includes(element.parentNode.getAttribute("block"));
+        let index = element.getAttribute("index")
+        let isTopRow = index == "0" || index == "1" || index == "2"
+        let isMiddleRow = index == "3" || index == "4" || index == "5"
+        let isBottomRow = index == "6" || index == "7" || index == "8"
+        if (isTopRowBlock && isTopRow) {
+            element.setAttribute("row", 1);
+        } else if (isTopRowBlock && isMiddleRow) {
+            element.setAttribute("row", 2);
+        } else if (isTopRowBlock && isBottomRow) {
+            element.setAttribute("row", 3)
+        }
+        if (isMiddleRowBlock && isTopRow) {
+            element.setAttribute("row", 4);
+        } else if (isMiddleRowBlock && isMiddleRow) {
+            element.setAttribute("row", 5);
+        } else if (isMiddleRowBlock && isBottomRow) {
+            element.setAttribute("row", 6)
+        }
+        if (isBottomRowBlock && isTopRow) {
+            element.setAttribute("row", 7);
+        } else if (isBottomRowBlock && isMiddleRow) {
+            element.setAttribute("row", 8);
+        } else if (isBottomRowBlock && isBottomRow) {
+            element.setAttribute("row", 9)
+        }
+    })
+};
+
+function Col() {
+    AllCells.forEach((element) => {
+        let isLeftColBlock = "0 3 6".includes(element.parentNode.getAttribute("block"));
+        let isMiddleColBlock = "1 4 7".includes(element.parentNode.getAttribute("block"));
+        let isRightColBlock = "2 5 8".includes(element.parentNode.getAttribute("block"));
+        let index = element.getAttribute("index");
+        let isLeftCol = index == "0" || index == "3" || index == "6"
+        let isMiddleCol = index == "1" || index == "4" || index == "7"
+        let isRightCol = index == "2" || index == "5" || index == "8"
+        if (isLeftColBlock && isLeftCol) {
+            element.setAttribute("col", 1)
+        } else if (isLeftColBlock && isMiddleCol) {
+            element.setAttribute("col", 2)
+        } else if (isLeftColBlock && isRightCol) {
+            element.setAttribute("col", 3)
+        } else if (isMiddleColBlock && isLeftCol) {
+            element.setAttribute("col", 4)
+        } else if (isMiddleColBlock && isMiddleCol) {
+            element.setAttribute("col", 5)
+        } else if (isMiddleColBlock && isRightCol) {
+            element.setAttribute("col", 6)
+        } else if (isRightColBlock && isLeftCol) {
+            element.setAttribute("col", 7)
+        } else if (isRightColBlock && isMiddleCol) {
+            element.setAttribute("col", 8)
+        } else if (isRightColBlock && isRightCol) {
+            element.setAttribute("col", 9)
+        }
+    })
+}
+
+function checkWin() {
+    // check is every cell is filled
+    let AllCellsAnswers = document.querySelectorAll("sudoku-answer").length;
+    console.log(AllCellsAnswers);
+    // check is sudoku contains errors
+    let AllSudokuCellsArray = Array.from(document.querySelectorAll('sudoku-cell'));
+    let AllCellsError = AllSudokuCellsArray.some(element => element.classList.contains("wrong"));
+    console.log(AllCellsError);
+    //check win
+    if (AllCellsAnswers === 81 && AllCellsError == false) {
+        alert("you win!")
+    }
+}
