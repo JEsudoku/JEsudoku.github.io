@@ -48,7 +48,7 @@ sudoku-choice {
 sudoku-answer {
     z-index: 2;
     pointer-events: none;
-    position:relative;
+    position: relative;
     left: 1.5vw;
 
 }
@@ -75,4 +75,15 @@ sudoku-answer {
     right: 200px;
     top: 100px;
 
+}
+
+@media only screen and (max-width:1580px) {
+    .rules-box {
+        position: relative;
+        left: 50%;
+    }
+
+    sudoku-cell {
+        font-size: 4rem;
+    }
 }
